@@ -33,6 +33,6 @@ public class CustomerService {
     @Autowired
     private UserRepository userRepository;
 
-
+    @Autowired
     PasswordEncoder passwordEncoder;
 }

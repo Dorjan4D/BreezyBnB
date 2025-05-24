@@ -33,6 +33,6 @@ public class HostService {
     @Autowired
     private UserRepository userRepository;
 
-
+    @Autowired
     PasswordEncoder passwordEncoder;
 }

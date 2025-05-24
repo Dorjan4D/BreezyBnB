@@ -1,21 +1,3 @@
-@media only screen and (max-width: 1024px) {
-  .element-container {
-    display: none;
-  }
-  .odjava-button {
-    display: none;
-  }
-}
-
-@media only screen and (min-width: 1025px) {
-  .navbar-menu-button {
-    display: none;
-  }
-  .navbar-popup-menu {
-    display: none;
-  }
-}
-
 .navbar-container {
   display: flex;
   justify-content: space-between;

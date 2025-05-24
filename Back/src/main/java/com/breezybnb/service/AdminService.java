@@ -33,6 +33,6 @@ public class AdminService {
     @Autowired
     private UserRepository userRepository;
 
-
+    @Autowired
     PasswordEncoder passwordEncoder;
 }

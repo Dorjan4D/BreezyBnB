@@ -37,7 +37,7 @@ public class CustomerController {
     @Autowired
     private UserRepository userRepository;
 
-
+    @Autowired
     PasswordEncoder passwordEncoder;
 
     @Autowired

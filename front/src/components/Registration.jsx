@@ -55,7 +55,8 @@ export default function Registration() {
     const data = new FormData(event.target);
     let images2 = "";
     setError("");
-    if (!files) {
+    console.log(files);
+    if (!files || files.length == 0) {
       setError("Stavite barem jednu sliku");
       return;
     } else if (files.length > 1) {
@@ -93,18 +94,15 @@ export default function Registration() {
     if (submission.username.length < 4) {
       setError("Username mora sadržavati barem 4 znaka");
       return;
-    } else if (submission.password.length < 6) {
-      setError("Password mora imati barem 6 znaka");
+    } else if (submission.password.length < 8) {
+      setError("Password mora imati barem 8 znakova");
       return;
     } else if (
       !/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(submission.email)
     ) {
       setError("Nevaljan email");
       return;
-    } else if (
-      !(isNaN(submission.broj) === false) ||
-      submission.broj.length != 10
-    ) {
+    } else if (!(isNaN(submission.broj) === false)) {
       setError("Nevaljan broj telefona");
       return;
     } else if (!/^[a-zA-ZšŠđĐčČćĆžŽ\s]+$/.test(submission.ime)) {
@@ -127,16 +125,20 @@ export default function Registration() {
     setError("");
 
     const formData = new FormData();
-    formData.append("username", submission.username);
-    formData.append("name", submission.ime);
-    formData.append("surname", submission.prezime);
-    formData.append("email", submission.email);
-    formData.append("password", submission.password);
-    formData.append("gender", submission.spol.toUpperCase());
-    formData.append("dateOfBirth", submission.DOB);
-    formData.append("photo", submission.slika);
+    let jsonData = {
+      username: submission.username,
+      name: submission.ime,
+      surname: submission.prezime,
+      email: submission.email,
+      password: submission.password,
+      gender: submission.spol.toUpperCase(),
+      dateOfBirth: submission.DOB,
+      photo: { photo: submission.slika },
+      contactPhone: null,
+    };
+
     if (submission.typeOfUser == "Vlasnik") {
-      formData.append("contactPhone", String(submission.broj));
+      jsonData.contactPhone = String(submission.broj);
     }
     if (submission.typeOfUser == "Vlasnik") {
       setEndpoint("host");
@@ -147,16 +149,18 @@ export default function Registration() {
     if (submission.typeOfUser == "Kupac") {
       setEndpoint("customer");
     }
-
-    fetch("https://localhost:8080/register/" + endpoint, {
+    console.log();
+    console.log(jsonData);
+    fetch("http://localhost:8080/register/" + endpoint, {
       method: "POST",
-      body: formData,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(jsonData),
       credentials: "include",
     }).then((res) => {
       if (res.ok) {
         navigate("/login");
       } else {
-        setError("Korsinik već postoji");
+        setError("Nevaljano");
       }
     });
   };

@@ -31,36 +31,53 @@ function Login() {
       password: data.get("password"),
     };
     setIsPending(true);
-    const formData = new FormData();
-    formData.append("username", submission.username);
-    formData.append("password", submission.password);
+    const loginData = new URLSearchParams();
+    loginData.append("username", submission.username);
+    loginData.append("password", submission.password);
+
+    const jsonData = {
+      username: submission.username,
+      password: submission.password,
+    };
     //send post request with fetch
     //TODO fix route to one that exists
-    fetch("https://localhost:8080/login", {
+    fetch("http://localhost:8080/login", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/x-www-form-urlencoded",
       },
       credentials: "include",
-      body: formData,
+      body: loginData,
     })
       .then((res) => {
         console.log(submission);
         setIsPending(false);
         if (!res.ok) {
-          return { error: "Krivi username ili password" };
+          setError("Krivi username ili password");
+          //return { error: "Krivi username ili password" };
         }
         return res.text();
       })
       .then((text) => {
         console.log(text);
-        text = JSON.parse(text);
-        text = text.Data[0];
-        console.log(text);
+        if (text == "customer") {
+          updateUser({
+            isCustomer: true,
+            isAuth: true,
+          });
+        } else if (text == "host") {
+          updateUser({
+            isHost: true,
+            isAuth: true,
+          });
+        } else if (text == "admin") {
+          updateUser({
+            isAdmin: true,
+            isAuth: true,
+          });
+        }
+        setError(text);
         //dodati za tip korisnika true/false -----------------------------------------------------------------
-        updateUser({
-          isAuth: true,
-        });
       })
       .catch((ex) => {
         console.log(ex);

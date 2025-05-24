@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -44,7 +45,7 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-
+    @Autowired
     PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -63,7 +64,7 @@ public class UserController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(String username, String password, HttpSession session){
+    public ResponseEntity<String> login(@RequestParam String username, @RequestParam String password, HttpSession session){
         String typeOfUser;
         User usr=adminRepository.findByUsername(username).orElse(null);
         if (usr != null) typeOfUser = "admin";
@@ -99,7 +100,7 @@ public class UserController {
 
 
     @PostMapping("/register/admin")
-    public ResponseEntity<String> registerAdmin(Admin argAdmin) {
+    public ResponseEntity<String> registerAdmin(@RequestBody Admin argAdmin) {
         if (userRepository.existsByUsername(argAdmin.getUsername())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Username is already taken");
         }
@@ -112,7 +113,7 @@ public class UserController {
         admin.setSurname(argAdmin.getSurname());
         admin.setEmail(argAdmin.getEmail());
         admin.setPassword(argAdmin.getPassword());
-        admin.setPhoto(argAdmin.getPhoto());
+        admin.assignPhoto(argAdmin.getPhoto());
         admin.setGender(argAdmin.getGender());
         admin.setDateOfBirth(argAdmin.getDateOfBirth());
 
@@ -126,7 +127,7 @@ public class UserController {
     }
 
     @PostMapping("/register/customer")
-    public ResponseEntity<String> registerCustomer(Customer argCustomer) {
+    public ResponseEntity<String> registerCustomer(@RequestBody Customer argCustomer) {
         if (userRepository.existsByUsername(argCustomer.getUsername())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Username is already taken");
         }
@@ -139,7 +140,7 @@ public class UserController {
         customer.setSurname(argCustomer.getSurname());
         customer.setEmail(argCustomer.getEmail());
         customer.setPassword(argCustomer.getPassword());
-        customer.setPhoto(argCustomer.getPhoto());
+        customer.assignPhoto(argCustomer.getPhoto());
         customer.setGender(argCustomer.getGender());
         customer.setDateOfBirth(argCustomer.getDateOfBirth());
 
@@ -153,7 +154,7 @@ public class UserController {
 
 
     @PostMapping("/register/host")
-    public ResponseEntity<String> registerHost(Host argHost) {
+    public ResponseEntity<String> registerHost(@RequestBody Host argHost) {
         if (userRepository.existsByUsername(argHost.getUsername())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Username is already taken");
         }
@@ -166,7 +167,7 @@ public class UserController {
         host.setSurname(argHost.getSurname());
         host.setEmail(argHost.getEmail());
         host.setPassword(argHost.getPassword());
-        host.setPhoto(argHost.getPhoto());
+        host.assignPhoto(argHost.getPhoto());
         host.setGender(argHost.getGender());
         host.setDateOfBirth(argHost.getDateOfBirth());
 

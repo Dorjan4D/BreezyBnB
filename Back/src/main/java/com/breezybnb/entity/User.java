@@ -6,10 +6,7 @@ import com.breezybnb.dto.DtoUser;
 import com.breezybnb.entityWrapper.EntityWrapper;
 import com.breezybnb.enums.Gender;
 import com.breezybnb.filter.LazyFieldsFilter;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -95,7 +92,7 @@ public abstract class User implements ConvertibleToDTO<DtoUser> {
     private String email;
 
     @Column(nullable = false)
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     private LocalDateTime registered;
@@ -123,7 +120,7 @@ public abstract class User implements ConvertibleToDTO<DtoUser> {
     @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = LazyFieldsFilter.class)
     @OneToOne(optional = false, cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "photo_id", nullable = false, unique = true)
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Photo photo;
 
     public void assignPhoto(Photo photo) {  // always use new Photo(byte[] photo) constructor for photo

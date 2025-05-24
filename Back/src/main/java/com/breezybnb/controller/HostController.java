@@ -37,7 +37,7 @@ public class HostController {
     @Autowired
     private UserRepository userRepository;
 
-
+    @Autowired
     PasswordEncoder passwordEncoder;
 
     @Autowired

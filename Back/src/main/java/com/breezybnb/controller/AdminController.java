@@ -37,7 +37,7 @@ public class AdminController {
     @Autowired
     private UserRepository userRepository;
 
-
+    @Autowired
     PasswordEncoder passwordEncoder;
 
     @Autowired
