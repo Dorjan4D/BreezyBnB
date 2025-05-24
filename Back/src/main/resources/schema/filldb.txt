@@ -1,0 +1,241 @@
+insert 
+    into
+        photo
+        (accommodation_id, photo, uploaded, id) 
+    values
+        (?, ?, ?, ?)
+ 
+    insert 
+    into
+        photo
+        (accommodation_id, photo, uploaded, id) 
+    values
+        (?, ?, ?, ?)
+2025-04-13T23:43:36.664+02:00 DEBUG 31960 --- [BreezyBnB] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        users
+        (date_of_birth, email, gender, name, password, photo_id, registered, surname, username, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+ 
+    insert 
+    into
+        users
+        (date_of_birth, email, gender, name, password, photo_id, registered, surname, username, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-04-13T23:43:36.666+02:00 DEBUG 31960 --- [BreezyBnB] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        admin
+        (id) 
+    values
+        (?)
+ 
+    insert 
+    into
+        admin
+        (id) 
+    values
+        (?)
+2025-04-13T23:43:36.668+02:00 DEBUG 31960 --- [BreezyBnB] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        photo
+        (accommodation_id, photo, uploaded, id) 
+    values
+        (?, ?, ?, ?)
+ 
+    insert 
+    into
+        photo
+        (accommodation_id, photo, uploaded, id) 
+    values
+        (?, ?, ?, ?)
+2025-04-13T23:43:36.669+02:00 DEBUG 31960 --- [BreezyBnB] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        users
+        (date_of_birth, email, gender, name, password, photo_id, registered, surname, username, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+ 
+    insert 
+    into
+        users
+        (date_of_birth, email, gender, name, password, photo_id, registered, surname, username, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-04-13T23:43:36.671+02:00 DEBUG 31960 --- [BreezyBnB] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        host
+        (bio, contact_phone, verified, id) 
+    values
+        (?, ?, ?, ?)
+ 
+    insert 
+    into
+        host
+        (bio, contact_phone, verified, id) 
+    values
+        (?, ?, ?, ?)
+2025-04-13T23:43:36.674+02:00 DEBUG 31960 --- [BreezyBnB] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        photo
+        (accommodation_id, photo, uploaded, id) 
+    values
+        (?, ?, ?, ?)
+ 
+    insert 
+    into
+        photo
+        (accommodation_id, photo, uploaded, id) 
+    values
+        (?, ?, ?, ?)
+2025-04-13T23:43:36.676+02:00 DEBUG 31960 --- [BreezyBnB] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        users
+        (date_of_birth, email, gender, name, password, photo_id, registered, surname, username, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+ 
+    insert 
+    into
+        users
+        (date_of_birth, email, gender, name, password, photo_id, registered, surname, username, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-04-13T23:43:36.677+02:00 DEBUG 31960 --- [BreezyBnB] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        customer
+        (id) 
+    values
+        (?)
+ 
+    insert 
+    into
+        customer
+        (id) 
+    values
+        (?)
+2025-04-13T23:43:36.678+02:00 DEBUG 31960 --- [BreezyBnB] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        accommodation
+        (address, area_square_meters, cost_per_night, description, host_id, max_num_of_guests, name, num_of_bathrooms, num_of_bedrooms, num_of_beds, type, verified, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+ 
+    insert 
+    into
+        accommodation
+        (address, area_square_meters, cost_per_night, description, host_id, max_num_of_guests, name, num_of_bathrooms, num_of_bedrooms, num_of_beds, type, verified, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-04-13T23:43:36.682+02:00 DEBUG 31960 --- [BreezyBnB] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        photo
+        (accommodation_id, photo, uploaded, id) 
+    values
+        (?, ?, ?, ?)
+ 
+    insert 
+    into
+        photo
+        (accommodation_id, photo, uploaded, id) 
+    values
+        (?, ?, ?, ?)
+2025-04-13T23:43:36.683+02:00 DEBUG 31960 --- [BreezyBnB] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        photo
+        (accommodation_id, photo, uploaded, id) 
+    values
+        (?, ?, ?, ?)
+ 
+    insert 
+    into
+        photo
+        (accommodation_id, photo, uploaded, id) 
+    values
+        (?, ?, ?, ?)
+2025-04-13T23:43:36.685+02:00 DEBUG 31960 --- [BreezyBnB] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        reservation
+        (accommodation_id, cancel_date, check_in_timestamp, customer_id, date_from, date_to, num_of_guests, paid, pay_date, price, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+ 
+    insert 
+    into
+        reservation
+        (accommodation_id, cancel_date, check_in_timestamp, customer_id, date_from, date_to, num_of_guests, paid, pay_date, price, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-04-13T23:43:36.687+02:00 DEBUG 31960 --- [BreezyBnB] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        review
+        (accommodation_id, comment, customer_id, rating, updated, id) 
+    values
+        (?, ?, ?, ?, ?, ?)
+ 
+    insert 
+    into
+        review
+        (accommodation_id, comment, customer_id, rating, updated, id) 
+    values
+        (?, ?, ?, ?, ?, ?)
+2025-04-13T23:43:36.689+02:00 DEBUG 31960 --- [BreezyBnB] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        payment
+        (amount, history_id, refunded_timestamp, reservation_id, timestamp, id) 
+    values
+        (?, ?, ?, ?, ?, ?)
+ 
+    insert 
+    into
+        payment
+        (amount, history_id, refunded_timestamp, reservation_id, timestamp, id) 
+    values
+        (?, ?, ?, ?, ?, ?)
+2025-04-13T23:43:36.691+02:00 DEBUG 31960 --- [BreezyBnB] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        history
+        (accommodation_id, cancel_date, canceled_timestamp, check_in_timestamp, check_out_timestamp, customer_id, date_from, date_to, num_of_guests, paid, pay_date, price, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+ 
+    insert 
+    into
+        history
+        (accommodation_id, cancel_date, canceled_timestamp, check_in_timestamp, check_out_timestamp, customer_id, date_from, date_to, num_of_guests, paid, pay_date, price, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-04-13T23:43:36.698+02:00 DEBUG 31960 --- [BreezyBnB] [           main] org.hibernate.SQL                        : 
+    update
+        payment 
+    set
+        history_id=?,
+        refunded_timestamp=?,
+        reservation_id=? 
+    where
+        id=?
+ 
+    update
+        payment 
+    set
+        history_id=?,
+        refunded_timestamp=?,
+        reservation_id=? 
+    where
+        id=?

@@ -1,0 +1,31 @@
+create sequence accommodation_seq start with 1 increment by 50
+create sequence history_seq start with 1 increment by 50
+create sequence payment_seq start with 1 increment by 50
+create sequence photo_seq start with 1 increment by 50
+create sequence reservation_seq start with 1 increment by 50
+create sequence review_seq start with 1 increment by 50
+create sequence users_seq start with 1 increment by 50
+create table accommodation (area_square_meters float(53), cost_per_night float(53), max_num_of_guests integer, num_of_bathrooms integer, num_of_bedrooms integer, num_of_beds integer, host_id bigint not null, id bigint not null, verified timestamp(6), address varchar(255) not null, description varchar(255), name varchar(255) not null, type varchar(255) not null check (type in ('APARTMENT','HOUSE','STUDIO','CABIN','VILLA','HOSTEL','HOTEL')), primary key (id))
+create table admin (id bigint not null, primary key (id))
+create table customer (id bigint not null, primary key (id))
+create table history (cancel_date date, date_from date, date_to date, num_of_guests integer, pay_date date, price float(53), accommodation_id bigint not null, canceled_timestamp timestamp(6), check_in_timestamp timestamp(6), check_out_timestamp timestamp(6), customer_id bigint not null, id bigint not null, paid timestamp(6), primary key (id))
+create table host (id bigint not null, verified timestamp(6), bio varchar(255), contact_phone varchar(255), primary key (id))
+create table payment (amount float(53) not null, history_id bigint, id bigint not null, refunded_timestamp timestamp(6), reservation_id bigint, timestamp timestamp(6) not null, primary key (id))
+create table photo (accommodation_id bigint, id bigint not null, uploaded timestamp(6) not null, photo varchar(255) not null, primary key (id))
+create table reservation (cancel_date date, date_from date, date_to date, num_of_guests integer, pay_date date, price float(53), accommodation_id bigint not null, check_in_timestamp timestamp(6), customer_id bigint not null, id bigint not null, paid timestamp(6), primary key (id))
+create table review (rating integer not null, accommodation_id bigint not null, customer_id bigint not null, id bigint not null, updated timestamp(6) not null, comment varchar(255), primary key (id), unique (accommodation_id, customer_id))
+create table users (date_of_birth date not null, id bigint not null, photo_id bigint not null unique, registered timestamp(6), email varchar(255) not null unique, gender varchar(255) not null check (gender in ('MALE','FEMALE','OTHER')), name varchar(255) not null, password varchar(255) not null, surname varchar(255) not null, username varchar(255) not null unique, primary key (id))
+alter table if exists accommodation add constraint FKxlitwn68lomveiyomtuuys4a foreign key (host_id) references host
+alter table if exists admin add constraint FKqer4e53tfnl17s22ior7fcsv8 foreign key (id) references users
+alter table if exists customer add constraint FKhu8qiqgy7buhjc5s739s4x8we foreign key (id) references users
+alter table if exists history add constraint FK22fi0x4dtsqtfgw90mkwbci29 foreign key (accommodation_id) references accommodation
+alter table if exists history add constraint FKjbek4jc1j9ngptsyoud1pbu2f foreign key (customer_id) references customer
+alter table if exists host add constraint FK9cxj55dg8pn4b8s1qjr5py1y5 foreign key (id) references users
+alter table if exists payment add constraint FKeor7k2u4vcut2e2er6dhlpjsn foreign key (history_id) references history
+alter table if exists payment add constraint FKrewpj5f9v9xehy4ga8g221nw1 foreign key (reservation_id) references reservation
+alter table if exists photo add constraint FKmewyewcxciar4abwn7j6bds78 foreign key (accommodation_id) references accommodation
+alter table if exists reservation add constraint FKoa1arn2i6kipar0jakkwtsjip foreign key (accommodation_id) references accommodation
+alter table if exists reservation add constraint FK41v6ueo0hiran65w8y1cta2c2 foreign key (customer_id) references customer
+alter table if exists review add constraint FKqu9e33gxe85m0o95kv98d660y foreign key (accommodation_id) references accommodation
+alter table if exists review add constraint FKgce54o0p6uugoc2tev4awewly foreign key (customer_id) references customer
+alter table if exists users add constraint FKpub9rq626qubh4iwiqr5ltiq5 foreign key (photo_id) references photo
