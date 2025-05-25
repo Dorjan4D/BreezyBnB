@@ -69,6 +69,16 @@ public class UserController {
     }
 
 
+    @GetMapping("/checkUserType")
+    public ResponseEntity<String> checkUserType(HttpSession session) {
+        User user = userService.checkUserTypeById(checkNullSession(session));
+        return ResponseEntity.ok(user instanceof Admin ? "admin"
+                : user instanceof Customer ? "customer"
+                : "host");
+    }
+
+
+
     @PostMapping("/login")
     public ResponseEntity<String> login(
             @RequestParam String username,

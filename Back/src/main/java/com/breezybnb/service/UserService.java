@@ -83,6 +83,11 @@ public class UserService {
     }
 
 
+    @Transactional(readOnly = true)
+    public User checkUserTypeById(Long usrId) {
+        return inferUserTypeById(usrId);
+    }
+
 
 
     @Transactional(readOnly = true)
