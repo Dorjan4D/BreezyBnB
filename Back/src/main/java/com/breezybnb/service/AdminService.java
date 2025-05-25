@@ -1,7 +1,8 @@
 package com.breezybnb.service;
 
+import com.breezybnb.entity.User;
 import com.breezybnb.repository.*;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -35,4 +36,17 @@ public class AdminService {
 
     @Autowired
     PasswordEncoder passwordEncoder;
+
+
+
+    private User inferUserTypeById(Long id) {
+        User user = adminRepository.findById(id).orElse(null);
+        if (user == null) {
+            user = customerRepository.findById(id).orElse(null);
+            if (user == null) {
+                user = hostRepository.findById(id).orElse(null);
+            }
+        }
+        return user;
+    }
 }

@@ -3,11 +3,16 @@ package com.breezybnb.service;
 import com.breezybnb.entity.Admin;
 import com.breezybnb.entity.Customer;
 import com.breezybnb.entity.Host;
+import com.breezybnb.entity.User;
 import com.breezybnb.repository.*;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 @Service
 @Transactional
@@ -49,6 +54,17 @@ public class UserService {
     }
 
 
+    private User inferUserTypeById(Long id) {
+        User user = adminRepository.findById(id).orElse(null);
+        if (user == null) {
+            user = customerRepository.findById(id).orElse(null);
+            if (user == null) {
+                user = hostRepository.findById(id).orElse(null);
+            }
+        }
+        return user;
+    }
+
 
     public Admin saveAdmin(Admin admin) {
         validatePassword(admin.getPassword());
@@ -72,5 +88,32 @@ public class UserService {
 
 
 
+    @Transactional(readOnly = true)
+    public User login(String username, String password) {
+        User user = adminRepository.findByUsername(username).orElse(null);
+        if (user == null) {
+            user = customerRepository.findByUsername(username).orElse(null);
+            if (user == null) {
+                user = hostRepository.findByUsername(username).orElseThrow(() ->
+                        new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Incorrect username or password"));
+            }
+        }
 
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Incorrect username or password");
+        }
+
+        if (user.getRegistered() == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Please confirm your email!");
+        }
+
+        return user;
+    }
+
+    @Transactional(readOnly = true)
+    public List<String> showAcmdtypes(Long usrId) {
+        User user = inferUserTypeById(usrId);
+        if (user instanceof Admin || user instanceof Host) return acmdtypeRepository.findAllDistinctTypes();
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Only admins or hosts can view accommodation types");
+    }
 }

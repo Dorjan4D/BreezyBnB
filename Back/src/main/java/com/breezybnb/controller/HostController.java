@@ -1,14 +1,21 @@
 package com.breezybnb.controller;
 
+import com.breezybnb.converter.MyConverter;
+import com.breezybnb.dto.DtoAccommodation;
+import com.breezybnb.entity.Accommodation;
 import com.breezybnb.repository.*;
-import com.breezybnb.service.AdminService;
-import com.breezybnb.service.CustomerService;
-import com.breezybnb.service.HostService;
-import com.breezybnb.service.UserService;
+import com.breezybnb.service.*;
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/host")
@@ -51,4 +58,28 @@ public class HostController {
 
     @Autowired
     private HostService hostService;
+
+    @Autowired
+    private GuestService guestService;
+
+
+    private Long checkNullSession(HttpSession session) {
+        Long id = (Long) session.getAttribute("id");
+        if (id == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not logged in");
+        }
+        return id;
+    }
+
+
+    @GetMapping("/myAccommodations")
+    public ResponseEntity<List<DtoAccommodation>> showMyAccommodations(HttpSession session) {
+        return ResponseEntity.ok(hostService.getAccommodationsByHostId(checkNullSession(session)));
+    }
+
+    @PostMapping("/addAccommodation")
+    public ResponseEntity<String> addAccommodation(HttpSession session, @RequestBody @Valid Accommodation argAccommodation) {
+        hostService.addAccommodation(checkNullSession(session), argAccommodation);
+        return ResponseEntity.ok("Success");
+    }
 }

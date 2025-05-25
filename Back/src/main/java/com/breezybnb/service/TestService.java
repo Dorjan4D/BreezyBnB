@@ -2,7 +2,7 @@ package com.breezybnb.service;
 
 import com.breezybnb.entity.Acmdtype;
 import com.breezybnb.repository.*;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

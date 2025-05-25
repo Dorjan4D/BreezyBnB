@@ -1,18 +1,21 @@
 package com.breezybnb.controller;
 
+import com.breezybnb.dto.DtoAccommodation;
+import com.breezybnb.dto.DtoReview;
 import com.breezybnb.repository.*;
 import com.breezybnb.service.*;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 @RestController
-@RequestMapping("/admin")
-public class AdminController {
+public class GuestController {
 
     @Autowired
     private AccommodationRepository accommodationRepository;
@@ -57,11 +60,19 @@ public class AdminController {
 
 
 
-    private Long checkNullSession(HttpSession session) {
-        Long id = (Long) session.getAttribute("id");
-        if (id == null) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not logged in");
-        }
-        return id;
+
+    @GetMapping("/accommodations")
+    public ResponseEntity<List<DtoAccommodation>> showAccommodations() {
+        return ResponseEntity.ok(guestService.showAccommodations());
+    }
+
+    @GetMapping("/accommodations/{id}")
+    public ResponseEntity<DtoAccommodation> getAccommodationById(@PathVariable Long id) {
+        return ResponseEntity.ok(guestService.getAccommodationById(id));
+    }
+
+    @GetMapping("/accommodations/{id}/reviews")
+    public ResponseEntity<List<DtoReview>> getReviewsByAccommodationId (@PathVariable Long id) {
+        return ResponseEntity.ok(guestService.getReviewsByAccommodationId(id));
     }
 }

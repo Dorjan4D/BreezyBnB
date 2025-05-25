@@ -1,14 +1,14 @@
 package com.breezybnb.controller;
 
 import com.breezybnb.repository.*;
-import com.breezybnb.service.AdminService;
-import com.breezybnb.service.CustomerService;
-import com.breezybnb.service.HostService;
-import com.breezybnb.service.UserService;
+import com.breezybnb.service.*;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/customer")
@@ -51,4 +51,17 @@ public class CustomerController {
 
     @Autowired
     private HostService hostService;
+
+    @Autowired
+    private GuestService guestService;
+
+
+
+    private Long checkNullSession(HttpSession session) {
+        Long id = (Long) session.getAttribute("id");
+        if (id == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not logged in");
+        }
+        return id;
+    }
 }
