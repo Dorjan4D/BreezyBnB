@@ -1,11 +1,15 @@
 package com.breezybnb.service;
 
+import com.breezybnb.entity.Acmdtype;
+import com.breezybnb.entity.Admin;
 import com.breezybnb.entity.User;
 import com.breezybnb.repository.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @Transactional
@@ -49,4 +53,41 @@ public class AdminService {
         }
         return user;
     }
+
+
+    public void addAcmdtype(Long usrId, String newType) {
+        User user = inferUserTypeById(usrId);
+
+        if (user instanceof Admin admin && admin.getVerified() != null) {
+            Acmdtype acmdtype = new Acmdtype(newType);
+            acmdtypeRepository.save(acmdtype);
+            return;
+        }
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Only verified admins can add accommodation types");
+    }
+
+    public void updateAcmdtype(Long usrId, String oldType, String newType) {
+        User user = inferUserTypeById(usrId);
+
+        if (user instanceof Admin admin && admin.getVerified() != null) {
+            Acmdtype acmdtype = acmdtypeRepository.findByType(oldType).orElseThrow();
+            acmdtype.setType(newType);
+            acmdtypeRepository.save(acmdtype);
+            return;
+        }
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Only verified admins can update accommodation types");
+    }
+
+    public void removeAcmdtype(Long usrId, String type) {
+        User user = inferUserTypeById(usrId);
+
+        if (user instanceof Admin admin && admin.getVerified() != null) {
+            Acmdtype acmdtype = acmdtypeRepository.findByType(type).orElseThrow();
+            acmdtypeRepository.delete(acmdtype);
+            return;
+        }
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Only verified admins can remove accommodation types and delete associated accommodations");
+    }
+
+
 }
