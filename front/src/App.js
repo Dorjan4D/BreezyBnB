@@ -15,6 +15,10 @@ import {
 } from "./components/AuthenticationContext.jsx";
 import { useState } from "react";
 import Registration from "./components/Registration.jsx";
+import Ad_detail from "./components/Ad_detail.jsx";
+import MyAds from "./components/MyAds.jsx";
+import { NewAd } from "./components/NewAd.jsx";
+import { EditAd } from "./components/EditAd.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -22,6 +26,10 @@ const router = createBrowserRouter(
       <Route index element={<Home />} />
       <Route path="login" element={<Login />} />
       <Route path="registration" element={<Registration />} />
+      <Route path=":id" element={<Ad_detail />} />
+      <Route path="/MyAds" element={<MyAds />} />
+      <Route path="newAd" element={<NewAd />} />
+      <Route path="/updateAd" element={<EditAd />} />
       <Route path="*" element={<NotFound />} /> {/*error page */}
     </Route>
   )

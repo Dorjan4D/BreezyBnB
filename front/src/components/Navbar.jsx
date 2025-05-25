@@ -41,7 +41,7 @@ function Navbar() {
             </Link>
           )}
           {user.isHost && (
-            <Link to="/registration">
+            <Link to="/MyAds">
               <div className="element-container">MOJI SMJEŠTAJI</div>
             </Link>
           )}
