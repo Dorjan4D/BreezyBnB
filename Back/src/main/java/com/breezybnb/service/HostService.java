@@ -16,7 +16,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -62,8 +61,8 @@ public class HostService {
 
 
     @Transactional(readOnly = true)
-    public List<DtoAccommodation> getAccommodationsByHostId(Long usrid) {
-        List<Accommodation> acs = accommodationRepository.findByHostId(usrid);
+    public List<DtoAccommodation> getAccommodationsByHostId(Long usrId) {
+        List<Accommodation> acs = accommodationRepository.findByHostId(usrId);
         List<DtoAccommodation> acsdto = MyConverter.convertToDTOList(acs);
 
         for (int i = 0; i < acs.size(); i++) {
@@ -80,9 +79,9 @@ public class HostService {
 
 
 
-    public void addAccommodation(Long usrid, Accommodation argAccommodation) {
-        User user = inferUserTypeById(usrid);
-        if (!(user instanceof Host host)) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Must be a host");
+    public void addAccommodation(Long usrId, Accommodation argAccommodation) {
+        User user = inferUserTypeById(usrId);
+        if (!(user instanceof Host host) || host.getVerified() == null) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Must be a verified host");
         Accommodation accommodation = new Accommodation();
 
         // pretend accommodation is verified right away
@@ -111,4 +110,40 @@ public class HostService {
         hostRepository.save(host);
 
     }
+
+
+
+
+    public void editAccommodation(Long usrId, Accommodation argAccommodation) {
+        User user = inferUserTypeById(usrId);
+        if (!(user instanceof Host host) || host.getVerified() == null) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Must be a verified host");
+
+        Accommodation accommodation = accommodationRepository.findByIdAndHostId(argAccommodation.getId(), usrId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Accommodation not found or does not belong to host"));
+
+
+        List<Photo> newPhotos = argAccommodation.getPhotos().stream()
+                .map(p -> new Photo(p.getPhoto()))
+                .toList();
+        accommodation.getPhotos().clear();
+        accommodation.addMultiplePhotos(newPhotos);
+
+
+        accommodation.assignAcmdtype(acmdtypeRepository.findByType(argAccommodation.getAcmdtype().getType()).orElseThrow());
+
+        accommodation.setName(argAccommodation.getName());
+        accommodation.setPlace(argAccommodation.getPlace());
+        accommodation.setAddress(argAccommodation.getAddress());
+        accommodation.setAreaSquareMeters(argAccommodation.getAreaSquareMeters());
+        accommodation.setCostPerNight(argAccommodation.getCostPerNight());
+        accommodation.setDescription(argAccommodation.getDescription());
+        accommodation.setNumOfBedrooms(argAccommodation.getNumOfBedrooms());
+        accommodation.setNumOfBeds(argAccommodation.getNumOfBeds());
+        accommodation.setNumOfBathrooms(argAccommodation.getNumOfBathrooms());
+        accommodation.setMaxNumOfGuests(argAccommodation.getMaxNumOfGuests());
+
+        accommodationRepository.save(accommodation);
+    }
+
+
 }

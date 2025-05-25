@@ -1,9 +1,6 @@
 package com.breezybnb.service;
 
-import com.breezybnb.entity.Admin;
-import com.breezybnb.entity.Customer;
-import com.breezybnb.entity.Host;
-import com.breezybnb.entity.User;
+import com.breezybnb.entity.*;
 import com.breezybnb.repository.*;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -110,10 +107,32 @@ public class UserService {
         return user;
     }
 
+
+
     @Transactional(readOnly = true)
     public List<String> showAcmdtypes(Long usrId) {
         User user = inferUserTypeById(usrId);
-        if (user instanceof Admin || user instanceof Host) return acmdtypeRepository.findAllDistinctTypes();
-        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Only admins or hosts can view accommodation types");
+        if (user instanceof Admin admin && admin.getVerified() != null
+                || user instanceof Host host && host.getVerified() != null) return acmdtypeRepository.findAllDistinctTypes();
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Only verified admins or verified hosts can view accommodation types");
+    }
+
+
+
+    public void removeAccommodation(Long usrId, Long accommodationId) {
+        User user = inferUserTypeById(usrId);
+        if (user instanceof Host) {
+            Accommodation accommodation = accommodationRepository.findByIdAndHostId(accommodationId, usrId)
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Accommodation not found or does not belong to host"));
+            accommodationRepository.delete(accommodation);
+            return;
+        }
+        if (user instanceof Admin admin && admin.getVerified() != null) {
+            Accommodation accommodation = accommodationRepository.findById(accommodationId)
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Accommodation not found"));
+            accommodationRepository.delete(accommodation);
+            return;
+        }
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Only verified admins or owner hosts can remove accommodation");
     }
 }

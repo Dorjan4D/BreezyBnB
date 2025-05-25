@@ -82,4 +82,12 @@ public class HostController {
         hostService.addAccommodation(checkNullSession(session), argAccommodation);
         return ResponseEntity.ok("Success");
     }
+
+    @PostMapping("/editAccommodation")
+    public ResponseEntity<String> editAccommodation(HttpSession session, @RequestBody @Valid Accommodation argAccommodation) {
+        hostService.editAccommodation(checkNullSession(session), argAccommodation);
+        return ResponseEntity.ok("Success");
+    }
+
+
 }

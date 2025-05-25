@@ -172,4 +172,10 @@ public class UserController {
     }
 
 
+    @PostMapping("/removeAccommodation/{accommodationId}")
+    public ResponseEntity<String> removeAccommodation(HttpSession session, @PathVariable Long accommodationId) {
+        userService.removeAccommodation(checkNullSession(session), accommodationId);
+        return ResponseEntity.ok("Success");
+    }
+
 }
