@@ -257,8 +257,8 @@ function Ad_detail() {
           {comments &&
             comments.map((comment) => (
               <Comment
-                name={comment.name}
-                surname={comment.surname}
+                name={comment.customer.name}
+                surname={comment.customer.surname}
                 rating={comment.rating}
                 comment={comment.comment}
                 key={comment.id}

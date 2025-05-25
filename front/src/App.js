@@ -13,7 +13,7 @@ import {
   AuthContext,
   AuthProvider,
 } from "./components/AuthenticationContext.jsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Registration from "./components/Registration.jsx";
 import Ad_detail from "./components/Ad_detail.jsx";
 import MyAds from "./components/MyAds.jsx";
@@ -21,6 +21,7 @@ import { NewAd } from "./components/NewAd.jsx";
 import { EditAd } from "./components/EditAd.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import Postavke from "./components/Postavke.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -32,6 +33,7 @@ const router = createBrowserRouter(
       <Route path="/MyAds" element={<MyAds />} />
       <Route path="newAd" element={<NewAd />} />
       <Route path="/updateAd" element={<EditAd />} />
+      <Route path="/postavke" element={<Postavke />} />
       <Route path="*" element={<NotFound />} /> {/*error page */}
     </Route>
   )
@@ -51,6 +53,47 @@ function App() {
   const updateUser = (newUserData) => {
     setUser((prevUser) => ({ ...prevUser, ...newUserData }));
   };
+  useEffect(() => {
+    if (!user.isAuth) {
+      fetch("http://localhost:8080/checkUserType", {
+        method: "GET",
+        credentials: "include",
+      })
+        .then((res) => {
+          if (!res.ok) {
+            updateUser({
+              isAuth: false,
+              isAdmin: false,
+              isHost: false,
+              isCustomer: false,
+            });
+            throw Error("lol");
+          }
+          return res.text();
+        })
+        .then((text) => {
+          if (text == "customer") {
+            updateUser({
+              isCustomer: true,
+              isAuth: true,
+            });
+          } else if (text == "host") {
+            updateUser({
+              isHost: true,
+              isAuth: true,
+            });
+          } else if (text == "admin") {
+            updateUser({
+              isAdmin: true,
+              isAuth: true,
+            });
+          }
+        })
+        .catch((error) => {
+          console.error("Login fetch failed:", error);
+        });
+    }
+  }, []);
   return (
     <AuthContext.Provider value={{ user, updateUser }}>
       <div className="App">

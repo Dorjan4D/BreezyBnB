@@ -18,10 +18,9 @@ export const EditAd = () => {
   const [lat, setLat] = useState();
   const [lng, setLng] = useState();
   const [color, setColor] = useState("");
-  const [vrste, setVrste] = useState(["ONEnight", "vila", "priroda", "indoor"]);
+  const [vrste, setVrste] = useState(["Apartment"]);
 
   const { state } = useLocation();
-  console.log(vrste);
 
   useEffect(() => {
     if (!user.isAuth && !user.isHost) {
@@ -40,7 +39,6 @@ export const EditAd = () => {
         };
       }
     } else {
-      console.log(state);
       if (state == null) {
         return;
       }
@@ -50,6 +48,9 @@ export const EditAd = () => {
       setPreview(base64Urls);
     }
   }, [files]);
+  useEffect(() => {
+    console.log("rereander");
+  }, [vrste]);
 
   useEffect(() => {
     console.log(state);
@@ -70,6 +71,7 @@ export const EditAd = () => {
       })
       .then((data) => {
         setVrste(data);
+        console.log(data);
       })
       .catch((err) => {
         console.log(err);
@@ -96,33 +98,17 @@ export const EditAd = () => {
     let images2 = "";
     setError("");
     if (!files || files.length == 0) {
-      setError("Stavite barem jednu sliku");
-      return;
+      if (!state) {
+        setError("Stavite barem jednu sliku");
+        return;
+      }
     } else if (files.length > 3) {
       setError("Maksimalno 3 slike su dopuštene");
       return;
     }
-
-    const base64 = await getBase64(files[0]); // `file` your img file
-    images2 = base64.split(",").pop();
-
-    if (files.length >= 2) {
-      const base6423 = await getBase64(files[1]); // `file` your img file
-      images2 = images2 + "," + base6423.split(",").pop();
-    }
-
-    if (files.length == 3) {
-      const base6424 = await getBase64(files[2]); // `file` your img file
-      images2 = images2 + "," + base6424.split(",").pop();
-    }
-    images2 = images2.split(",");
-    let jsonimages = images2.map((image) => {
-      return { photo: image };
-    });
-
     const jsonData = {
       id: state.id,
-      photo: jsonimages,
+      photos: {},
       name: data.get("naziv"),
       place: data.get("mjesto"),
       address: data.get("adresa"),
@@ -135,7 +121,28 @@ export const EditAd = () => {
       maxNumOfGuests: data.get("guests"),
       acmdtype: { type: data.get("vrsta") },
     };
-    console.log(jsonData);
+    if (files) {
+      const base64 = await getBase64(files[0]).catch((err) => console.log(err)); // `file` your img file
+      images2 = base64.split(",").pop();
+
+      if (files.length >= 2) {
+        const base6423 = await getBase64(files[1]); // `file` your img file
+        images2 = images2 + "," + base6423.split(",").pop();
+      }
+
+      if (files.length == 3) {
+        const base6424 = await getBase64(files[2]); // `file` your img file
+        images2 = images2 + "," + base6424.split(",").pop();
+      }
+      images2 = images2.split(",");
+      let jsonimages = images2.map((image) => {
+        return { photo: image };
+      });
+
+      jsonData.photos = jsonimages;
+    } else {
+      jsonData.photos = state.photos;
+    }
 
     if (
       !/^\d+$/.test(jsonData.areaSquareMeters) ||
@@ -148,13 +155,19 @@ export const EditAd = () => {
       setError("Niste dobro ispunili");
       return;
     }
-    fetch("http://localhost:8080/editAd", {
+    console.log(jsonData);
+    fetch("http://localhost:8080/host/editAccommodation", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      credentials: "include",
       body: JSON.stringify(jsonData),
     })
-      .then((res) => {
+      .then(async (res) => {
         //setIsPending(false)
+        if (!res.ok) {
+          const errorText = await res.text(); // or use res.json() if it's JSON
+          throw new Error(errorText || "Unknown error occurred");
+        }
         if (res.ok) {
           navigate("/MyAds");
         } else {
@@ -320,21 +333,23 @@ export const EditAd = () => {
           />
         </div>
 
-        <div className="form-group">
-          <label htmlFor="vrsta">Vrsta smještaja</label>
-          <select
-            className="form-control"
-            id="vrsta"
-            name="vrsta"
-            defaultValue={state.acmdtype.type}
-          >
-            {vrste.map((vrsta) => (
-              <option key={vrsta} value={vrsta}>
-                {vrsta}
-              </option>
-            ))}
-          </select>
-        </div>
+        {vrste.length > 5 && (
+          <div className="form-group">
+            <label htmlFor="vrsta">Vrsta smještaja</label>
+            <select
+              className="form-control"
+              id="vrsta"
+              name="vrsta"
+              defaultValue={state.acmdtype.type}
+            >
+              {vrste.map((vrsta) => (
+                <option key={vrsta} value={vrsta}>
+                  {vrsta}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
 
         <div className="text-center">
           <button className="btn btn-primary" id="btn-createAd">

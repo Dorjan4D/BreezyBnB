@@ -89,6 +89,15 @@ export default function Registration() {
       DOB: data.get("DOB"),
       slika: images2,
     };
+    if (submission.typeOfUser == "Vlasnik") {
+      setEndpoint("host");
+    }
+    if (submission.typeOfUser == "Admin") {
+      setEndpoint("admin");
+    }
+    if (submission.typeOfUser == "Kupac") {
+      setEndpoint("customer");
+    }
     console.log(submission);
 
     if (submission.username.length < 4) {
@@ -140,15 +149,7 @@ export default function Registration() {
     if (submission.typeOfUser == "Vlasnik") {
       jsonData.contactPhone = String(submission.broj);
     }
-    if (submission.typeOfUser == "Vlasnik") {
-      setEndpoint("host");
-    }
-    if (submission.typeOfUser == "Admin") {
-      setEndpoint("admin");
-    }
-    if (submission.typeOfUser == "Kupac") {
-      setEndpoint("customer");
-    }
+
     console.log();
     console.log(jsonData);
     fetch("http://localhost:8080/register/" + endpoint, {

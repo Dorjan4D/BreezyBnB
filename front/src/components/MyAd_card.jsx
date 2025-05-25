@@ -5,13 +5,14 @@ function MyAd_card(props) {
   const navigate = useNavigate();
 
   const handleDelete = (event, id) => {
-    fetch("http://localhost:8080/deleteAD", {
+    fetch("http://localhost:8080/removeAccommodation/" + String(id), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(JSON.stringify({ id: id })),
+      credentials: "include",
     })
       .then((res) => {
         if (res.ok) {
+          event.preventDefault();
           window.location.reload(false);
         }
       })
@@ -49,10 +50,13 @@ function MyAd_card(props) {
         </p>
       </div>
       <div className="myad-commands">
-        <button onClick={handleEdit}>
+        <button type="button" onClick={handleEdit}>
           <i className="bi bi-pencil-fill" title="Uredi oglas"></i>
         </button>
-        <button onClick={(event) => handleDelete(event, props.id)}>
+        <button
+          type="button"
+          onClick={(event) => handleDelete(event, props.id)}
+        >
           <i className="bi bi-trash3-fill" title="Obriši oglas"></i>
         </button>
       </div>

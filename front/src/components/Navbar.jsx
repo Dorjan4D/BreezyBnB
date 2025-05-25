@@ -45,6 +45,11 @@ function Navbar() {
               <div className="element-container">MOJI SMJEŠTAJI</div>
             </Link>
           )}
+          {user.isAdmin && (
+            <Link to="/postavke">
+              <div className="element-container">POSTAVKE</div>
+            </Link>
+          )}
           {user.isAuth && (
             <button className="odjava-button" onClick={eventHandler}>
               ODJAVA

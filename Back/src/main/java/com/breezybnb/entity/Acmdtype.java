@@ -39,7 +39,7 @@ public class Acmdtype implements ConvertibleToDTO<DtoAcmdtype> {
     @GeneratedValue
     private Long id;
 
-    @Column(nullable = false, updatable = false, unique = true)
+    @Column(nullable = false, unique = true)
     @NotBlank
     private String type;
 
