@@ -19,6 +19,8 @@ import Ad_detail from "./components/Ad_detail.jsx";
 import MyAds from "./components/MyAds.jsx";
 import { NewAd } from "./components/NewAd.jsx";
 import { EditAd } from "./components/EditAd.jsx";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 const router = createBrowserRouter(
   createRoutesFromElements(

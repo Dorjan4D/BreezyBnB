@@ -87,11 +87,12 @@ public class HostService {
 
         // pretend accommodation is verified right away
         accommodation.setVerified(LocalDateTime.now());
-
         List<Photo> newPhotos = argAccommodation.getPhotos().stream()
                 .map(p -> new Photo(p.getPhoto()))
                 .toList();
         accommodation.addMultiplePhotos(newPhotos);
+
+
         accommodation.assignAcmdtype(acmdtypeRepository.findByType(argAccommodation.getAcmdtype().getType()).orElseThrow());
 
         accommodation.setName(argAccommodation.getName());
@@ -106,6 +107,8 @@ public class HostService {
         accommodation.setMaxNumOfGuests(argAccommodation.getMaxNumOfGuests());
 
         host.addAccommodation(accommodation);
+
         hostRepository.save(host);
+
     }
 }

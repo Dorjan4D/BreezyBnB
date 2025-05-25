@@ -40,7 +40,11 @@ export const EditAd = () => {
         };
       }
     } else {
-      const base64Urls = state.photo.map(
+      console.log(state);
+      if (state == null) {
+        return;
+      }
+      const base64Urls = state.photos.map(
         (img) => `data:image/png;base64,${img.photo}`
       );
       setPreview(base64Urls);
@@ -53,7 +57,7 @@ export const EditAd = () => {
       return;
     }
 
-    fetch("http://localhost:8080/vrste", {
+    fetch("http://localhost:8080/acmdtypes", {
       method: "GET",
       credentials: "include",
     })
@@ -129,7 +133,7 @@ export const EditAd = () => {
       numOfBeds: data.get("kreveti"),
       numOfBathrooms: data.get("bathrooms"),
       maxNumOfGuests: data.get("guests"),
-      acmdtype: data.get("vrsta"),
+      acmdtype: { type: data.get("vrsta") },
     };
     console.log(jsonData);
 
@@ -194,6 +198,7 @@ export const EditAd = () => {
             className="form-control"
             id="naziv"
             name="naziv"
+            defaultValue={state.name}
             required
             placeholder="Naziv smještaja"
           />
@@ -206,7 +211,7 @@ export const EditAd = () => {
             className="form-control"
             id="mjesto"
             name="mjesto"
-            defaultValue={state.name}
+            defaultValue={state.place}
             required
             placeholder="Mjesto smještaja"
           />
@@ -219,7 +224,7 @@ export const EditAd = () => {
             className="form-control"
             id="adresa"
             name="adresa"
-            defaultValue={state.place}
+            defaultValue={state.address}
             required
             placeholder="Adresa smještaja"
           />
@@ -321,7 +326,7 @@ export const EditAd = () => {
             className="form-control"
             id="vrsta"
             name="vrsta"
-            defaultValue={state.acmdtype}
+            defaultValue={state.acmdtype.type}
           >
             {vrste.map((vrsta) => (
               <option key={vrsta} value={vrsta}>

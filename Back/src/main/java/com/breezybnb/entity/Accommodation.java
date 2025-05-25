@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -33,13 +34,13 @@ import java.util.Set;
         scope = Accommodation.class)
 public class Accommodation implements ConvertibleToDTO<DtoAccommodation> {
 
-    @PrePersist
-    @PreUpdate
-    private void validate() {
-        if (this.photos == null || this.photos.isEmpty()) {
-            throw new IllegalStateException("An accommodation must have at least one photo");
-        }
-    }
+//    @PrePersist
+//    @PreUpdate
+//    private void validate() {
+//        if (this.photos == null || this.photos.isEmpty()) {
+//            throw new IllegalStateException("An accommodation must have at least one photo");
+//        }
+//    }
 
 
     @Id
@@ -93,6 +94,7 @@ public class Accommodation implements ConvertibleToDTO<DtoAccommodation> {
     @JsonInclude(value = JsonInclude.Include.CUSTOM, valueFilter = LazyFieldsFilter.class)
     @OneToMany(mappedBy = "accommodation", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("uploaded DESC")
+    @NotEmpty(message = "Accommodation must have at least one photo")
     private List<Photo> photos = new LinkedList<>();
 
     public void addPhoto(Photo photo) {

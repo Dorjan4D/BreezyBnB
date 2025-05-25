@@ -35,7 +35,7 @@ export const NewAd = () => {
   }, [files]);
 
   useEffect(() => {
-    fetch("http://localhost:8080/vrste", {
+    fetch("http://localhost:8080/acmdtypes", {
       method: "GET",
       credentials: "include",
     })
@@ -99,18 +99,18 @@ export const NewAd = () => {
     });
 
     const jsonData = {
-      photo: jsonimages,
+      photos: jsonimages,
       name: data.get("naziv"),
       place: data.get("mjesto"),
       address: data.get("adresa"),
-      areaSquareMeters: data.get("kvadrati"),
-      costPerNight: data.get("nightCost"),
+      areaSquareMeters: parseFloat(data.get("kvadrati")),
+      costPerNight: parseFloat(data.get("nightCost")),
       description: data.get("opis"),
-      numOfBedrooms: data.get("bedrooms"),
-      numOfBeds: data.get("kreveti"),
-      numOfBathrooms: data.get("bathrooms"),
-      maxNumOfGuests: data.get("guests"),
-      acmdtype: data.get("vrsta"),
+      numOfBedrooms: parseInt(data.get("bedrooms")),
+      numOfBeds: parseInt(data.get("kreveti")),
+      numOfBathrooms: parseInt(data.get("bathrooms")),
+      maxNumOfGuests: parseInt(data.get("guests")),
+      acmdtype: { type: data.get("vrsta") },
     };
     console.log(jsonData);
 
@@ -125,9 +125,10 @@ export const NewAd = () => {
       setError("Niste dobro ispunili");
       return;
     }
-    fetch("http://localhost:8080/newAd", {
+    fetch("http://localhost:8080/host/addAccommodation", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      credentials: "include",
       body: JSON.stringify(jsonData),
     })
       .then((res) => {
@@ -135,7 +136,8 @@ export const NewAd = () => {
         if (res.ok) {
           navigate("/MyAds");
         } else {
-          throw Error("neuspjelo");
+          const errorData = res.json();
+          throw new Error(errorData.message || "Unknown error");
         }
       })
       .catch((err) => {

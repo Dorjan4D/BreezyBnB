@@ -14,7 +14,7 @@ function MyAds() {
     if (!user.isHost) {
       navigate("/");
     }
-    fetch("http://localhost:8080/myAds", {
+    fetch("http://localhost:8080/host/myAccommodations", {
       method: "GET",
       credentials: "include",
     })
@@ -43,10 +43,10 @@ function MyAds() {
         ads.map((ad) => (
           <MyAd_card
             key={ad.id}
-            image={ad.photo[0].photo}
+            image={ad.photos[0].photo}
             name={ad.name}
             place={ad.place}
-            acmdtype={ad.acmdtype}
+            acmdtype={ad.acmdtype.type}
             id={ad.id}
             data={ad}
           />

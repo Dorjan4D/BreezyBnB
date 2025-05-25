@@ -9,11 +9,15 @@ function MyAd_card(props) {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(JSON.stringify({ id: id })),
-    }).then((res) => {
-      if (res.ok) {
-        window.location.reload(false);
-      }
-    });
+    })
+      .then((res) => {
+        if (res.ok) {
+          window.location.reload(false);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   function handleEdit() {

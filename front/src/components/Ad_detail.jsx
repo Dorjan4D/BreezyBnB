@@ -8,7 +8,7 @@ import Comment from "./Comment.jsx";
 function Ad_detail() {
   let keyCounter = 0;
 
-  const params = useParams();
+  const { id } = useParams();
 
   const navigate = useNavigate();
 
@@ -23,14 +23,49 @@ function Ad_detail() {
 
   const [comments, setComments] = useState(false);
 
-  const [the_ad, setTheAd] = useState({});
+  const [the_ad, setTheAd] = useState({
+    id: null,
+    verified: "",
+    name: "",
+    place: "",
+    address: "",
+    areaSquareMeters: 3.0,
+    costPerNight: 3.0,
+    description: "",
+    numOfBedrooms: 3,
+    numOfBeds: 3,
+    numOfBathrooms: 3,
+    maxNumOfGuests: 3,
+    acmdtype: {
+      id: 2,
+      type: "House",
+    },
+    host: {
+      id: 3,
+      username: "",
+      name: "",
+      surname: "",
+      email: "",
+      registered: "",
+      gender: "FEMALE",
+      dateOfBirth: "",
+      verified: "",
+      contactPhone: "",
+    },
+    photos: [
+      {
+        id: null,
+        photo: "",
+      },
+    ],
+  });
+  const [bezprvog, setBezPrvog] = useState([]);
 
   useEffect(() => {
-    const jsonData = { id: params };
-    fetch("http://localhost:8080/ad_detail", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(jsonData),
+    const jsonData = { id: id };
+    console.log(jsonData);
+    fetch("http://localhost:8080/accommodations/" + String(id), {
+      method: "GET",
       credentials: "include",
     })
       .then((res) => {
@@ -38,8 +73,32 @@ function Ad_detail() {
       })
       .then((data) => {
         setTheAd(data);
+
+        let podaci = data.photos;
+        podaci = podaci.filter((photo, index) => {
+          return index != 0;
+        });
+
+        setBezPrvog(podaci);
+        setFirstImage(data.photos[0]);
+
+        console.log(data);
+        console.log(podaci);
+        console.log(bezprvog);
       })
-      .then(() => fetch("main/comment_data?adID=" + params.id))
+      .catch((err) => {
+        console.log(err);
+        return;
+      })
+      .then(() =>
+        fetch(
+          "http://localhost:8080/accommodations/" + String(id) + "/reviews",
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        )
+      )
       .then((res) => {
         return res.json();
       })
@@ -65,22 +124,22 @@ function Ad_detail() {
       navigate("/login");
     }
   }
-
+  console.log(bezprvog);
   return (
     <div className="home-detail-container">
       <div className="ads-detail-container">
         <div className="pet-image-container">
           <div id="carouselExample" className="carousel slide">
             <div className="carousel-inner">
-              {/* <div className="carousel-item active" key={keyCounter}>
+              <div className="carousel-item active" key={firstImage.id}>
                 <img
-                  src={"data:image/png;base64," + the_ad.photo[0].photo}
+                  src={"data:image/png;base64," + firstImage.photo}
                   className="d-block w-100"
                   alt="..."
                 />
-              </div> */}
-              {the_ad.photo &&
-                the_ad.photo.map((photo) => (
+              </div>
+              {the_ad &&
+                bezprvog.map((photo) => (
                   <div className="carousel-item" key={photo.id}>
                     <img
                       src={"data:image/png;base64," + photo.photo}
@@ -121,7 +180,7 @@ function Ad_detail() {
             <h2>{the_ad.name}</h2>
             <p>
               <i className="category-style">Vrsta smještaja: </i>
-              {the_ad.type}
+              {the_ad.acmdtype.type}
             </p>
             <p>
               <i className="category-style">Mjesto: </i>
@@ -129,7 +188,7 @@ function Ad_detail() {
             </p>
             <p>
               <i className="category-style">Adresa: </i>
-              {the_ad.adress}
+              {the_ad.address}
             </p>
             <p>
               <i className="category-style">Broj kvadrata: </i>

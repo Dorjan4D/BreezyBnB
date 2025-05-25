@@ -24,7 +24,7 @@ function Home() {
   };
 
   useEffect(() => {
-    fetch("http://localhost:8080/frontpagedata", {
+    fetch("http://localhost:8080/accommodations", {
       method: "GET",
       credentials: "include",
     })
@@ -113,7 +113,7 @@ function Home() {
                 <Link to={"/" + ad.id} key={ad.id}>
                   <Ad_card
                     petname={ad.name}
-                    image={ad.photo[0].photo}
+                    image={ad.photos[0].photo}
                     description={ad.place}
                   />
                 </Link>
