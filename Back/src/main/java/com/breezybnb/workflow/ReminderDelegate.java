@@ -9,7 +9,7 @@ public class ReminderDelegate implements JavaDelegate {
 
     @Override
     public void execute(DelegateExecution execution) {
-        String resId = (String) execution.getVariable("accommodation");
+        String resId = (String) execution.getVariable("accommodationName");
         String host  = execution.getCurrentActivityName();
         System.out.println("[REMINDER] One minute passed – still waiting for host. "
                 + "Process=" + execution.getProcessInstanceId()
