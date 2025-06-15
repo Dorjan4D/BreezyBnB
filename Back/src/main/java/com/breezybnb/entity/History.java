@@ -56,7 +56,7 @@ public class History implements ConvertibleToDTO<DtoHistory> {
 
     private LocalDateTime canceledTimestamp;
 
-
+    private LocalDateTime confirmed;
 
     @ManyToOne(optional = false, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "accommodation_id", nullable = false, updatable = false)
@@ -126,6 +126,7 @@ public class History implements ConvertibleToDTO<DtoHistory> {
         history.setCheckInTimestamp(this.checkInTimestamp);
         history.setCheckOutTimestamp(this.checkOutTimestamp);
         history.setCanceledTimestamp(this.canceledTimestamp);
+        history.setConfirmed(this.confirmed);
         if (this.accommodation!=null) history.setAccommodation(this.accommodation.toDTO(entities));
         if (this.customer!=null) history.setCustomer(this.customer.toCustomerDTO(entities));
         return history;
@@ -149,6 +150,7 @@ public class History implements ConvertibleToDTO<DtoHistory> {
         history.setCheckInTimestamp(this.checkInTimestamp);
         history.setCheckOutTimestamp(this.checkOutTimestamp);
         history.setCanceledTimestamp(this.canceledTimestamp);
+        history.setConfirmed(this.confirmed);
         if (this.accommodation!=null) history.setAccommodation(this.accommodation.toDTO(localEntities));
         if (this.customer!=null) history.setCustomer(this.customer.toCustomerDTO(localEntities));
         return history;

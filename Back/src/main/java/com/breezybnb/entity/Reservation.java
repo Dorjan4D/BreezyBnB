@@ -52,6 +52,7 @@ public class Reservation implements ConvertibleToDTO<DtoReservation> {
 
     private LocalDateTime checkInTimestamp;
 
+    private LocalDateTime confirmed;
 
     @ManyToOne(optional = false, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "accommodation_id", nullable = false, updatable = false)
@@ -117,6 +118,7 @@ public class Reservation implements ConvertibleToDTO<DtoReservation> {
         reservation.setCancelDate(this.cancelDate);
         reservation.setPaid(this.paid);
         reservation.setCheckInTimestamp(this.checkInTimestamp);
+        reservation.setConfirmed(this.confirmed);
         if (this.accommodation!=null) reservation.setAccommodation(this.accommodation.toDTO(entities));
         if (this.customer!=null) reservation.setCustomer(this.customer.toCustomerDTO(entities));
         return reservation;
@@ -138,6 +140,7 @@ public class Reservation implements ConvertibleToDTO<DtoReservation> {
         reservation.setCancelDate(this.cancelDate);
         reservation.setPaid(this.paid);
         reservation.setCheckInTimestamp(this.checkInTimestamp);
+        reservation.setConfirmed(this.confirmed);
         if (this.accommodation!=null) reservation.setAccommodation(this.accommodation.toDTO(localEntities));
         if (this.customer!=null) reservation.setCustomer(this.customer.toCustomerDTO(localEntities));
         return reservation;

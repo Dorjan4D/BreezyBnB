@@ -35,6 +35,8 @@ public class DtoReservation {
 
     private LocalDateTime checkInTimestamp;
 
+    private LocalDateTime confirmed;
+
     private DtoAccommodation accommodation;
 
     private DtoCustomer customer;

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_10z1s50" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.36.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.23.0">
+  <bpmn:collaboration id="Collaboration_0986rlp">
+    <bpmn:extensionElements />
+    <bpmn:participant id="Participant_140twfw" processRef="Process_0uitcoq" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_0uitcoq" isExecutable="true" camunda:historyTimeToLive="7">
+    <bpmn:laneSet id="LaneSet_0ttkgy4">
+      <bpmn:lane id="Lane_05bvzlm" name="Customer">
+        <bpmn:flowNodeRef>submit_reservation</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_1ownch1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>host_decision</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_1ft5ivr</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_01ja65o</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_12z909g" name="Host">
+        <bpmn:flowNodeRef>host_confirmation</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="submit_reservation">
+      <bpmn:outgoing>Flow_1exr1go</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="Activity_1ownch1" name="Submit Reservation" camunda:candidateGroups="customers">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="dateFrom" label="Arrival date" type="date" />
+          <camunda:formField id="dateTo" label="Departure date" type="date" />
+          <camunda:formField id="numOfGuests" label="Number of guests" type="long" />
+          <camunda:formField id="price" label="Price (EUR)" type="string" />
+          <camunda:formField id="customerUsername" label="Customer Username" type="string" />
+          <camunda:formField id="accommodationName" label="Accommodation" type="string" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1exr1go</bpmn:incoming>
+      <bpmn:outgoing>Flow_0iewbsd</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="host_decision" name="Host Decision" />
+    <bpmn:userTask id="Activity_1ft5ivr" />
+    <bpmn:userTask id="Activity_01ja65o" />
+    <bpmn:sequenceFlow id="Flow_1exr1go" sourceRef="submit_reservation" targetRef="Activity_1ownch1" />
+    <bpmn:userTask id="host_confirmation" name="Host Confirmation">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="reservationConfirmed" label="Confirm this reservation?" type="boolean" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0iewbsd</bpmn:incoming>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_0iewbsd" sourceRef="Activity_1ownch1" targetRef="host_confirmation" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0986rlp">
+      <bpmndi:BPMNShape id="Participant_140twfw_di" bpmnElement="Participant_140twfw" isHorizontal="true">
+        <dc:Bounds x="151" y="70" width="1039" height="640" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_12z909g_di" bpmnElement="Lane_12z909g" isHorizontal="true">
+        <dc:Bounds x="181" y="390" width="1009" height="320" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_05bvzlm_di" bpmnElement="Lane_05bvzlm" isHorizontal="true">
+        <dc:Bounds x="181" y="70" width="1009" height="320" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_090rcvq" bpmnElement="submit_reservation">
+        <dc:Bounds x="202" y="112" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0ikg574" bpmnElement="Activity_1ownch1">
+        <dc:Bounds x="350" y="90" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0xcbas4" bpmnElement="host_decision" isMarkerVisible="true">
+        <dc:Bounds x="555" y="105" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="546" y="81" width="68" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1ft5ivr_di" bpmnElement="Activity_1ft5ivr">
+        <dc:Bounds x="800" y="130" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_01ja65o_di" bpmnElement="Activity_01ja65o">
+        <dc:Bounds x="800" y="260" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0kb1deq_di" bpmnElement="host_confirmation">
+        <dc:Bounds x="350" y="410" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_1bwfy9v" bpmnElement="Flow_1exr1go">
+        <di:waypoint x="238" y="130" />
+        <di:waypoint x="350" y="130" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0iewbsd_di" bpmnElement="Flow_0iewbsd">
+        <di:waypoint x="400" y="170" />
+        <di:waypoint x="400" y="410" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

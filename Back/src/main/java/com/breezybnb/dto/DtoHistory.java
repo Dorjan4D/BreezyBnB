@@ -39,6 +39,8 @@ public class DtoHistory {
 
     private LocalDateTime canceledTimestamp;
 
+    private LocalDateTime confirmed;
+
     private DtoAccommodation accommodation;
 
     private DtoCustomer customer;
