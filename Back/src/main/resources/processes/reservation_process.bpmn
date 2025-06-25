@@ -70,6 +70,26 @@
               <camunda:constraint name="readonly" />
             </camunda:validation>
           </camunda:formField>
+          <camunda:formField id="date1" label="Date From" type="string" defaultValue="${dateFrom}">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="date2" label="Date To" type="string" defaultValue="${dateTo}">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="numofG" label="Number of guests" type="string" defaultValue="${numOfGuests}">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="customer1" label="Customer" type="string" defaultValue="${customerUsername}">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0iewbsd</bpmn:incoming>
@@ -109,6 +129,16 @@
             </camunda:validation>
           </camunda:formField>
           <camunda:formField id="ackn1" label="I understand" type="boolean" />
+          <camunda:formField id="accommo" label="Accommodation" type="string" defaultValue="${accommodationName}">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="customer15" label="Customer" type="string" defaultValue="${customerUsername}">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0ynu5d3</bpmn:incoming>
@@ -132,6 +162,11 @@
             </camunda:validation>
           </camunda:formField>
           <camunda:formField id="ackn2" label="I understand" type="boolean" />
+          <camunda:formField id="accomo" label="Accommodation" type="string" defaultValue="${accommodationName}">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1mjjdk9</bpmn:incoming>
@@ -153,6 +188,11 @@
         <camunda:formData>
           <camunda:formField id="ack" label="I understand the reservation was declined" type="boolean" />
           <camunda:formField id="accommodation" label="Accommodation" type="string" defaultValue="${accommodationName}">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="hostname12" label="Host" type="string" defaultValue="${hostName}">
             <camunda:validation>
               <camunda:constraint name="readonly" />
             </camunda:validation>
@@ -179,6 +219,26 @@
             </camunda:validation>
           </camunda:formField>
           <camunda:formField id="pay" label="Pay" type="boolean" />
+          <camunda:formField id="dateFrom4" label="Date From" type="string" defaultValue="${dateFrom}">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="dateTo12" label="Date To" type="string" defaultValue="${dateTo}">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="numofguests12" label="Number of guests" type="string" defaultValue="${numOfGuests}">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="host12" label="Host" type="string" defaultValue="${hostName}">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_10jm8g7</bpmn:incoming>
